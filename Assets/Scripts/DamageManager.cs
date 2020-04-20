@@ -10,9 +10,14 @@ public class DamageManager : MonoBehaviour
 	float invulnTimer = 0;
 	int correctLayer;
 	SpriteRenderer spriteRend;
+    SpriteRenderer sprite;
+
+    public delegate void ScoreDelegate();
+    public static event ScoreDelegate ScoreEvent;
 
     void Start()
     {
+        PlayerManager.Instance.GameOverEvent += ShowGameOver;
 		correctLayer = gameObject.layer;
 		spriteRend = GetComponent<SpriteRenderer>();
 
@@ -29,31 +34,17 @@ public class DamageManager : MonoBehaviour
 
     void OnTriggerEnter2D()
     {
-        if (gameObject.layer == 8 || gameObject.layer == 13 || gameObject.layer == 14)
-        {
-            PlayerManager.Instance.LifeOfPlayer--;
+        health--;
 
-            if (PlayerManager.Instance.LifeOfPlayer == 0)
-            {
-                ShowGameOver();
-            }
-        }
-        else
+        if (health <= 0)
         {
-            health--;
-            if (health <= 0)
-            {
-                AddPoint();
-            }
+            AddPoint();
         }
     }
 
     private void AddPoint()
     {
-        if (gameObject.layer != 8 && gameObject.layer !=12 && gameObject.layer !=13)
-        {
-            CanvasManager.Instance.score++;
-        }
+        ScoreEvent();
     }
 
     void Update()
@@ -88,7 +79,14 @@ public class DamageManager : MonoBehaviour
 
 	void Die()
     {
-        Destroy(gameObject);
+        if (gameObject.GetComponent<SpriteRenderer>().sortingLayerName == "Bullet")
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }   
     
     void ShowGameOver()

@@ -9,7 +9,16 @@ public class SelfDestruct : MonoBehaviour {
 		timer -= Time.deltaTime;
 
 		if(timer <= 0) {
-			Destroy(gameObject);
+
+            if (gameObject.GetComponent<SpriteRenderer>().sortingLayerName == "Bullet")
+            {
+                gameObject.SetActive(false);
+                timer = 5f;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
 		}
 	}
 }

@@ -213,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &597706431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: 1522951325}
   - component: {fileID: 1522951330}
   - component: {fileID: 1522951327}
+  - component: {fileID: 1522951331}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -732,7 +733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 321595948108835223, guid: 25853f4f29c73774fb9411794e94d30f,
     type: 3}
-  LifeOfPlayer: 3
+  offset: {x: 0, y: 0, z: 0}
 --- !u!212 &1522951328
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -769,8 +770,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 917512707
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -7896281735413620878, guid: 7a42eacd874a0314eb9434fd05a2d5d4,
     type: 3}
@@ -810,6 +811,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ecafb2bbb10424d9c9009c950aa66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1522951331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522951324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bf7636b69bd114ca9361741bc354cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  objectToPool: {fileID: 321595948108835223, guid: 25853f4f29c73774fb9411794e94d30f,
+    type: 3}
+  amountToPool: 20
 --- !u!1 &1721627678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,7 +1082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1970391884
 MonoBehaviour:
   m_ObjectHideFlags: 0

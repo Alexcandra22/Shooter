@@ -8,6 +8,7 @@ public class CanvasManager : MonoBehaviour
 {
 
     public int score;
+
     public TMP_Text ScoreText;
     public TMP_Text LifeOfPlayer;
 
@@ -28,9 +29,21 @@ public class CanvasManager : MonoBehaviour
         score = 0;
     }
 
-    void Update()
+    void Start()
     {
+        DamageManager.ScoreEvent += ChangeScoreText;
+        PlayerManager.Instance.LifeTextCheckEvent += ChangeLifeOfPlayerText;
+    }
+
+    void ChangeScoreText()
+    {
+        score++;
         ScoreText.text = "Score: " + score;
-        LifeOfPlayer.text = PlayerManager.Instance.LifeOfPlayer.ToString();
+    }
+
+    void ChangeLifeOfPlayerText()
+    {
+        score++;
+        ScoreText.text = "Score: " + score;
     }
 }

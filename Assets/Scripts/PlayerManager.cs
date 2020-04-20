@@ -4,13 +4,22 @@ using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour
 {
-	public GameObject BulletPrefab;
+    [SerializeField]
+    GameObject BulletPrefab;
+
 	int bulletLayer;
     Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
     float delayAndSpawnRate = 0.3f;
     float timeUntilSpawnRateIncrease = 10;
-    public int LifeOfPlayer = 3;
+    public Vector3 offset;
+    int LifeOfPlayer = 3;
     public List<Coroutine> allCoroutines = new List<Coroutine>();
+
+    public delegate void GameOverDelegate();
+    public event GameOverDelegate GameOverEvent;
+
+    public delegate void LifeTextCheckDelegate();
+    public event LifeTextCheckDelegate LifeTextCheckEvent;
 
     private static PlayerManager instance;
     public static PlayerManager Instance { get { return instance; } }
@@ -46,8 +55,16 @@ public class PlayerManager : MonoBehaviour
             if (spawnCountdown < 0)
             {
                 spawnCountdown += delayAndSpawnRate;
-                Vector3 offset = transform.rotation * bulletOffset;
-                GameObject bulletGO = Instantiate(BulletPrefab, transform.position + offset, transform.rotation);
+                offset = transform.rotation * bulletOffset;
+                //GameObject bulletGO = Instantiate(BulletPrefab, transform.position + offset, transform.rotation);
+                GameObject bulletGO = PoolObject.Instance.GetPooledObject();
+
+                if (bulletGO != null)
+                {
+                    bulletGO.transform.position = transform.position + offset;
+                    bulletGO.transform.rotation = transform.rotation;
+                    bulletGO.SetActive(true);
+                }
             }
 
             if (spawnRateCountdown < 0 && delayAndSpawnRate > 1)
@@ -63,6 +80,22 @@ public class PlayerManager : MonoBehaviour
         foreach (Coroutine cor in allCoroutines)
         {
             StopCoroutine(cor);
+        }
+    }
+
+    void OnTriggerEnter2D()
+    {
+        DealDamage();
+    }
+    
+    public void DealDamage()
+    {
+        LifeOfPlayer--;
+        LifeTextCheckEvent();
+
+        if (LifeOfPlayer == 0)
+        {
+            GameOverEvent();
         }
     }
 }
